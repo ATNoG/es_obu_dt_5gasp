@@ -1,0 +1,14 @@
+{
+  "type": "grafana-mqtt-datasource",
+  "access": "proxy",
+  "typeName": "MQTT",
+  "url": "$BROKER_URL",
+  "withCredentials": true,
+  "jsonData": {
+    "uri": "$BROKER_URL",
+    "username": "$BROKER_USERNAME"
+  },
+  "secureJsonData": {
+    "password": "$BROKER_PASSWORD"
+  }
+}
