@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "es-obu-dt-5gasp-chart.fullname" . }}-es-obu-dt-5gasp
+  name: dt-deployment
   labels:
     io.kompose.service: es-obu-dt-5gasp
   {{- include "es-obu-dt-5gasp-chart.labels" . | nindent 4 }}
