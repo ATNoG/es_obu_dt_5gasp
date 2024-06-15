@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: networkapp-miniapi
+spec:
+  selector:
+    matchLabels:
+      app: networkapp-miniapi
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: networkapp-miniapi
+
+    spec:
+      dnsPolicy: Default #it will be able to resolve outside names but not cluster names which is ok for my case. nice hack. Automatically it can resolve any name outside K8s!!!
+      containers:
+        - name: networkapp-miniapi
+          image: "harbor.patras5g.eu/5gasp/networkapp-miniapi:59b9daa1"
+          ports:
+            - name: http
+              containerPort: 13001
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+spec:
+  selector:
+    matchLabels:
+      app: producer
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: producer
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: producer
+          image: "harbor.patras5g.eu/5gasp/nef_producer:164bdb0b"
+          env:
+          - name: KAFKA_HOSTNAME
+            value: "privacyanalyzer-kafka-0.privacyanalyzer-kafka-headless.lamdanetworks.svc.cluster.local:9092"
+          - name: DB_HOSTNAME
+            value: "mongodb.lamdanetworks.svc.cluster.local"
+          - name: DB_DATABASE
+            value: "5gasp"
+          - name: DB_USER
+            value: "leonidas"
+          - name: DB_PASSWD
+            value: "leo123"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

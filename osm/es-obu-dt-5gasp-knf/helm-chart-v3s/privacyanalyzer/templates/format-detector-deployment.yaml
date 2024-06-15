@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: format-detector
+spec:
+  selector:
+    matchLabels:
+      app: format-detector
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: format-detector
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: format-detector
+          image: "harbor.patras5g.eu/5gasp/format-detector:ebab97c34"
+
+          env:
+           - name: KAFKA_HOSTNAME
+             value: "privacyanalyzer-kafka-0.privacyanalyzer-kafka-headless.lamdanetworks.svc.cluster.local:9092"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

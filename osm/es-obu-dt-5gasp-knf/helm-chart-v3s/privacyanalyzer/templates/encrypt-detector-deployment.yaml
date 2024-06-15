@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: encrypt-detector
+spec:
+  selector:
+    matchLabels:
+      app: encrypt-detector
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: encrypt-detector
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: producer
+          image: "harbor.patras5g.eu/5gasp/encrypt-detector:ebab97c34"
+          env:
+          - name: KAFKA_HOSTNAME
+            value: "privacyanalyzer-kafka-0.privacyanalyzer-kafka-headless.lamdanetworks.svc.cluster.local:9092"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

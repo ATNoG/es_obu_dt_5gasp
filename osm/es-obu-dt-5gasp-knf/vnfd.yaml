@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+# @Author: Rafael Direito
+# @Date:   2024-03-25 14:05:03
+# @Last Modified by:   Rafael Direito
+# @Last Modified time: 2024-03-25 14:27:17
+vnfd:
+  id: es-obu-dt-5gasp-knf
+  description: K8s Deployment for ES OBU's DT - 5GASP Final Audit
+  product-name: es-obu-dt-5gasp-knf
+  provider: 5gASP - ITAv
+  version: '1.0'
+  mgmt-cp: mgmt-ext
+  df:
+  - id: default-df
+  ext-cpd:
+  - id: mgmt-ext
+    k8s-cluster-net: mgmtnet
+  k8s-cluster:
+    nets:
+    - id: mgmtnet
+  kdu:
+  - name: obu-dt-chart
+    helm-chart: harbor.patras5g.eu/obu-chart

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-service
+spec:
+  selector:
+    app: angular
+  type: {{ if .Values.ingress.enabled }} ClusterIP {{ else }} NodePort {{ end }}
+  ports:
+  - protocol: "TCP"
+    targetPort: 9000
+    port: 9000
+    {{ if not .Values.ingress.enabled }}
+    nodePort: 30002
+    {{ end }}
