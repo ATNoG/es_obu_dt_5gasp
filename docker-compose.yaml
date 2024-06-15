@@ -10,11 +10,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: dt_endpoint_image
+    image: es-obu-dt-5gasp
     ports:
       - "1883:1883"
       - "9000:9000"
-    container_name: dt_endpoint
+    container_name: es-obu-dt-5gasp
     environment:
       - BROKER_URL="ws://es-broker.av.it.pt:8090"
       - BROKER_USERNAME="dummy"
