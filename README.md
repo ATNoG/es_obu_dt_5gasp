@@ -26,7 +26,7 @@ microk8s.helm uninstall es-obu-dt-5gasp
 # Push Helm Chart to Harbor
 microk8s.helm registry login harbor.patras5g.eu/netapp
 microk8s.helm package k8s/es-obu-dt-5gasp-chart/ 
-microk8s.helm push es-obu-dt-5gasp-chart-0.1.0.tgz oci://harbor.patras5g.eu/chartrepo/netapp
+microk8s.helm push obu-chart-0.1.0.tgz oci://harbor.patras5g.eu/chartrepo/netapp
 
 # Install from Harbor
 microk8s.helm repo update
@@ -34,7 +34,7 @@ microk8s.helm install \
     --set es_obu_dt_5gasp.env.brokerPassword=dummyPassword \
     --set es_obu_dt_5gasp.env.brokerUsername=dummyUsername \
     --set es_obu_dt_5gasp.env.brokerUrl=dummyUrl \
-    es-obu-dt-5gasp-chart harbor.patras5g.eu/es-obu-dt-5gasp-chart
+    es-obu-dt-5gasp-chart harbor.patras5g.eu/obu-chart
 
 # Uninstall
 microk8s.helm uninstall es-obu-dt-5gasp-chart
