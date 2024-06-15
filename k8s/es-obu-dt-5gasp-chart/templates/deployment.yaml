@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "es-obu-dt-5gasp-chart.fullname" . }}-es-obu-dt-5gasp
+  labels:
+    io.kompose.service: es-obu-dt-5gasp
+  {{- include "es-obu-dt-5gasp-chart.labels" . | nindent 4 }}
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.34.0 (HEAD)
+spec:
+  replicas: {{ .Values.esObuDt5Gasp.replicas }}
+  selector:
+    matchLabels:
+      io.kompose.service: es-obu-dt-5gasp
+    {{- include "es-obu-dt-5gasp-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: es-obu-dt-5gasp
+      {{- include "es-obu-dt-5gasp-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.34.0 (HEAD)
+    spec:
+      containers:
+      - env:
+        - name: BROKER_PASSWORD
+          value: {{ quote .Values.esObuDt5Gasp.esObuDt5Gasp.env.brokerPassword }}
+        - name: BROKER_URL
+          value: {{ quote .Values.esObuDt5Gasp.esObuDt5Gasp.env.brokerUrl }}
+        - name: BROKER_USERNAME
+          value: {{ quote .Values.esObuDt5Gasp.esObuDt5Gasp.env.brokerUsername }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.esObuDt5Gasp.esObuDt5Gasp.image.repository }}:{{ .Values.esObuDt5Gasp.esObuDt5Gasp.image.tag
+          | default .Chart.AppVersion }}
+        name: es-obu-dt-5gasp
+        ports:
+        - containerPort: 1883
+          protocol: TCP
+        - containerPort: 9000
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
