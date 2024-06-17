@@ -12,12 +12,6 @@
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
           "name": "Annotations & Alerts",
-          "target": {
-            "limit": 100,
-            "matchAny": false,
-            "tags": [],
-            "type": "dashboard"
-          },
           "type": "dashboard"
         }
       ]
@@ -53,19 +47,23 @@
                 {
                   "color": "green",
                   "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 11,
-          "w": 6,
+          "h": 14,
+          "w": 7,
           "x": 0,
           "y": 0
         },
-        "hideTimeOverride": true,
         "id": 2,
         "options": {
           "basemap": {
@@ -74,12 +72,12 @@
             "type": "default"
           },
           "controls": {
-            "mouseWheelZoom": false,
+            "mouseWheelZoom": true,
             "showAttribution": true,
             "showDebug": false,
             "showMeasure": false,
             "showScale": false,
-            "showZoom": false
+            "showZoom": true
           },
           "layers": [
             {
@@ -87,7 +85,7 @@
                 "showLegend": false,
                 "style": {
                   "color": {
-                    "fixed": "yellow"
+                    "fixed": "dark-green"
                   },
                   "opacity": 0.4,
                   "rotation": {
@@ -104,6 +102,10 @@
                   "symbol": {
                     "fixed": "img/icons/marker/circle.svg",
                     "mode": "fixed"
+                  },
+                  "symbolAlign": {
+                    "horizontal": "center",
+                    "vertical": "center"
                   },
                   "textConfig": {
                     "fontSize": 12,
@@ -127,15 +129,13 @@
           },
           "view": {
             "allLayers": true,
-            "id": "coords",
-            "lastOnly": false,
-            "lat": 38.699252,
-            "layer": "Layer 1",
-            "lon": -9.1834,
-            "zoom": 18
+            "id": "fit",
+            "lat": 0,
+            "lon": 0,
+            "zoom": 15
           }
         },
-        "pluginVersion": "9.4.7",
+        "pluginVersion": "10.3.3",
         "targets": [
           {
             "datasource": {
@@ -143,10 +143,10 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/CAM"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "vOBU Location",
+        "title": "Location",
         "transformations": [
           {
             "id": "extractFields",
@@ -155,14 +155,14 @@
               "jsonPaths": [
                 {
                   "alias": "latitude_raw",
-                  "path": "cam.camParameters.basicContainer.referencePosition.latitude"
+                  "path": "referencePosition.latitude"
                 },
                 {
                   "alias": "longitude_raw",
-                  "path": "cam.camParameters.basicContainer.referencePosition.longitude"
+                  "path": "referencePosition.longitude"
                 }
               ],
-              "source": "CAM"
+              "source": "vsm"
             }
           },
           {
@@ -172,7 +172,6 @@
               "binary": {
                 "left": "latitude_raw",
                 "operator": "/",
-                "reducer": "sum",
                 "right": "10000000"
               },
               "mode": "binary",
@@ -188,25 +187,12 @@
               "binary": {
                 "left": "longitude_raw",
                 "operator": "/",
-                "reducer": "sum",
                 "right": "10000000"
               },
               "mode": "binary",
               "reduce": {
                 "reducer": "sum"
               }
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "desc": true,
-                  "field": "Time"
-                }
-              ]
             }
           },
           {
@@ -241,34 +227,22 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "speed"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "green",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
+          "overrides": []
         },
         "gridPos": {
-          "h": 5,
-          "w": 4,
-          "x": 6,
+          "h": 7,
+          "w": 5,
+          "x": 7,
           "y": 0
         },
-        "id": 4,
+        "id": 3,
         "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
           "orientation": "auto",
           "reduceOptions": {
             "calcs": [
@@ -277,10 +251,11 @@
             "fields": "",
             "values": false
           },
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
         },
-        "pluginVersion": "9.4.7",
+        "pluginVersion": "10.3.3",
         "targets": [
           {
             "datasource": {
@@ -288,10 +263,10 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/CAM"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "vOBU Speed (km/h)",
+        "title": "MCC",
         "transformations": [
           {
             "id": "extractFields",
@@ -299,187 +274,10 @@
               "format": "json",
               "jsonPaths": [
                 {
-                  "alias": "speed_raw",
-                  "path": "cam.camParameters.highFrequencyContainer.basicVehicleContainerHighFrequency.speed.speedValue"
+                  "path": "modemStatus.mcc"
                 }
               ],
-              "source": "CAM"
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "speed",
-              "binary": {
-                "left": "speed_raw",
-                "operator": "/",
-                "reducer": "sum",
-                "right": "36"
-              },
-              "mode": "binary",
-              "reduce": {
-                "reducer": "sum"
-              }
-            }
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "speed_raw": true
-              },
-              "indexByName": {},
-              "renameByName": {}
-            }
-          }
-        ],
-        "type": "gauge"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 5,
-          "w": 3,
-          "x": 10,
-          "y": 0
-        },
-        "id": 12,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "auto"
-        },
-        "pluginVersion": "9.4.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
-          }
-        ],
-        "title": "MNC",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "mnc"
-                ]
-              }
-            }
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 5,
-          "w": 3,
-          "x": 13,
-          "y": 0
-        },
-        "id": 14,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "auto"
-        },
-        "pluginVersion": "9.4.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
-          }
-        ],
-        "title": "MCC",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "mcc"
-                ]
-              }
+              "source": "vsm"
             }
           }
         ],
@@ -496,6 +294,7 @@
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -509,6 +308,7 @@
                 "tooltip": false,
                 "viz": false
               },
+              "insertNulls": false,
               "lineInterpolation": "linear",
               "lineWidth": 1,
               "pointSize": 5,
@@ -538,17 +338,18 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 10,
-          "w": 8,
-          "x": 16,
+          "h": 7,
+          "w": 6,
+          "x": 12,
           "y": 0
         },
-        "id": 22,
+        "id": 10,
         "options": {
           "legend": {
             "calcs": [],
@@ -568,14 +369,115 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/network"
+            "topic": "logs/21/throughput"
           }
         ],
-        "title": "Network Throughput",
+        "title": "Throughput (B/s)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "RSRQ",
         "transformations": [
           {
-            "id": "filterFieldsByName",
-            "options": {}
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.nr.rsrq"
+                }
+              ],
+              "source": "vsm"
+            }
           }
         ],
         "type": "timeseries"
@@ -603,20 +505,21 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
-          "w": 4,
-          "x": 6,
-          "y": 5
+          "h": 7,
+          "w": 5,
+          "x": 7,
+          "y": 7
         },
-        "id": 8,
+        "id": 4,
         "options": {
           "colorMode": "value",
-          "graphMode": "none",
+          "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "auto",
           "reduceOptions": {
@@ -626,9 +529,11 @@
             "fields": "",
             "values": false
           },
-          "textMode": "auto"
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
         },
-        "pluginVersion": "9.4.7",
+        "pluginVersion": "10.3.3",
         "targets": [
           {
             "datasource": {
@@ -636,10 +541,10 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/CPM"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "vOBU Number of Perceived Objects",
+        "title": "MNC",
         "transformations": [
           {
             "id": "extractFields",
@@ -647,11 +552,10 @@
               "format": "json",
               "jsonPaths": [
                 {
-                  "alias": "perceivedObjects",
-                  "path": "cpm.cpmParameters.numberOfPerceivedObjects"
+                  "path": "modemStatus.mnc"
                 }
               ],
-              "source": "CPM"
+              "source": "vsm"
             }
           }
         ],
@@ -665,14 +569,47 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "fixedColor": "yellow",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
             },
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
+                  "color": "blue",
                   "value": null
                 },
                 {
@@ -680,32 +617,30 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
-          "w": 3,
-          "x": 10,
-          "y": 5
+          "h": 8,
+          "w": 6,
+          "x": 12,
+          "y": 7
         },
-        "id": 20,
+        "id": 1,
         "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
           },
-          "textMode": "auto"
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
         },
-        "pluginVersion": "9.4.7",
         "targets": [
           {
             "datasource": {
@@ -713,24 +648,127 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
+            "topic": "logs/21/MESSAGE_DELAY"
           }
         ],
-        "title": "5G PCI",
+        "title": "Latency (ms)",
         "transformations": [
           {
-            "id": "filterFieldsByName",
+            "id": "extractFields",
             "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "5g_pci"
-                ]
-              }
+              "format": "json",
+              "source": "message_delay"
             }
           }
         ],
-        "type": "stat"
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 7
+        },
+        "id": 7,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "RSRP",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.nr.rsrp"
+                }
+              ],
+              "source": "vsm"
+            }
+          }
+        ],
+        "type": "timeseries"
       },
       {
         "datasource": {
@@ -755,40 +793,18 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "ratmode"
-              },
-              "properties": [
-                {
-                  "id": "mappings",
-                  "value": [
-                    {
-                      "options": {
-                        "1": {
-                          "index": 0,
-                          "text": "NR_5G"
-                        }
-                      },
-                      "type": "value"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          "overrides": []
         },
         "gridPos": {
-          "h": 5,
-          "w": 3,
-          "x": 13,
-          "y": 5
+          "h": 8,
+          "w": 5,
+          "x": 0,
+          "y": 14
         },
-        "id": 24,
+        "id": 5,
         "options": {
           "colorMode": "value",
           "graphMode": "area",
@@ -801,9 +817,11 @@
             "fields": "",
             "values": false
           },
-          "textMode": "auto"
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
         },
-        "pluginVersion": "9.4.7",
+        "pluginVersion": "10.3.3",
         "targets": [
           {
             "datasource": {
@@ -811,7 +829,7 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
         "title": "RAT",
@@ -819,18 +837,13 @@
           {
             "id": "extractFields",
             "options": {
-              "source": "ratmode"
-            }
-          },
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "ratmode",
-                  "Time"
-                ]
-              }
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.ratMode"
+                }
+              ],
+              "source": "vsm"
             }
           }
         ],
@@ -847,6 +860,7 @@
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -860,6 +874,7 @@
                 "tooltip": false,
                 "viz": false
               },
+              "insertNulls": false,
               "lineInterpolation": "linear",
               "lineWidth": 1,
               "pointSize": 5,
@@ -889,17 +904,18 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 6,
-          "w": 6,
-          "x": 6,
-          "y": 10
+          "h": 8,
+          "w": 7,
+          "x": 5,
+          "y": 14
         },
-        "id": 18,
+        "id": 9,
         "options": {
           "legend": {
             "calcs": [],
@@ -919,20 +935,21 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "5G RSRQ (dB)",
+        "title": "PCI",
         "transformations": [
           {
-            "id": "filterFieldsByName",
+            "id": "extractFields",
             "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "5g_rsrq"
-                ]
-              }
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.nr.pci"
+                }
+              ],
+              "source": "vsm"
             }
           }
         ],
@@ -946,551 +963,11 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "fixedColor": "blue",
+              "mode": "fixed"
             },
             "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 13,
-          "w": 12,
-          "x": 12,
-          "y": 10
-        },
-        "hideTimeOverride": false,
-        "id": 6,
-        "options": {
-          "basemap": {
-            "config": {},
-            "name": "Layer 0",
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": false,
-            "showAttribution": true,
-            "showDebug": false,
-            "showMeasure": false,
-            "showScale": false,
-            "showZoom": false
-          },
-          "layers": [
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "blue"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "latitude": "0.latitude",
-                "longitude": "0.longitude",
-                "mode": "coords"
-              },
-              "name": "Layer 1",
-              "tooltip": true,
-              "type": "markers"
-            },
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "blue"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "latitude": "1.latitude",
-                "longitude": "1.longitude",
-                "mode": "coords"
-              },
-              "name": "Layer 2",
-              "tooltip": false,
-              "type": "markers"
-            },
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "blue"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "latitude": "2.latitude",
-                "longitude": "2.longitude",
-                "mode": "coords"
-              },
-              "name": "Layer 3",
-              "tooltip": false,
-              "type": "markers"
-            },
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "blue"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "latitude": "3.latitude",
-                "longitude": "3.longitude",
-                "mode": "coords"
-              },
-              "name": "Layer 4",
-              "tooltip": false,
-              "type": "markers"
-            },
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "blue"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "latitude": "4.latitude",
-                "longitude": "4.longitude",
-                "mode": "coords"
-              },
-              "name": "Layer 5",
-              "tooltip": false,
-              "type": "markers"
-            }
-          ],
-          "tooltip": {
-            "mode": "details"
-          },
-          "view": {
-            "allLayers": true,
-            "id": "coords",
-            "lat": 38.699252,
-            "lon": -9.1833,
-            "zoom": 18
-          }
-        },
-        "pluginVersion": "9.4.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "obu/outqueue/json/3306/perceivedObjects"
-          }
-        ],
-        "title": "vOBU Perceived Objects Location",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "format": "json",
-              "jsonPaths": [
-                {
-                  "alias": "",
-                  "path": "0.latitude"
-                },
-                {
-                  "alias": "",
-                  "path": "0.longitude"
-                },
-                {
-                  "alias": "",
-                  "path": "1.latitude"
-                },
-                {
-                  "alias": "",
-                  "path": "1.longitude"
-                },
-                {
-                  "path": "2.latitude"
-                },
-                {
-                  "path": "2.longitude"
-                },
-                {
-                  "path": "3.latitude"
-                },
-                {
-                  "path": "3.longitude"
-                },
-                {
-                  "path": "4.latitude"
-                },
-                {
-                  "path": "4.longitude"
-                }
-              ],
-              "source": "Value"
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "desc": true,
-                  "field": "Time"
-                }
-              ]
-            }
-          },
-          {
-            "id": "limit",
-            "options": {
-              "limitField": 1
-            }
-          }
-        ],
-        "type": "geomap"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 12,
-          "w": 6,
-          "x": 0,
-          "y": 11
-        },
-        "hideTimeOverride": true,
-        "id": 10,
-        "options": {
-          "basemap": {
-            "config": {},
-            "name": "Layer 0",
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": false,
-            "showAttribution": true,
-            "showDebug": false,
-            "showMeasure": false,
-            "showScale": false,
-            "showZoom": false
-          },
-          "layers": [
-            {
-              "config": {
-                "showLegend": false,
-                "style": {
-                  "color": {
-                    "fixed": "green"
-                  },
-                  "opacity": 0.4,
-                  "rotation": {
-                    "fixed": 0,
-                    "max": 360,
-                    "min": -360,
-                    "mode": "mod"
-                  },
-                  "size": {
-                    "fixed": 5,
-                    "max": 15,
-                    "min": 2
-                  },
-                  "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
-                    "mode": "fixed"
-                  },
-                  "textConfig": {
-                    "fontSize": 12,
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "textAlign": "center",
-                    "textBaseline": "middle"
-                  }
-                }
-              },
-              "location": {
-                "mode": "auto"
-              },
-              "name": "Layer 1",
-              "tooltip": true,
-              "type": "markers"
-            }
-          ],
-          "tooltip": {
-            "mode": "details"
-          },
-          "view": {
-            "allLayers": true,
-            "id": "coords",
-            "lat": 38.699252,
-            "lon": -9.1834,
-            "zoom": 18
-          }
-        },
-        "pluginVersion": "9.4.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "obu/inqueue/json/3306/CPM"
-          }
-        ],
-        "title": "RSU Location",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "format": "json",
-              "jsonPaths": [
-                {
-                  "alias": "latitude_raw",
-                  "path": "cpm.cpmParameters.managementContainer.referencePosition.latitude"
-                },
-                {
-                  "alias": "longitude_raw",
-                  "path": "cpm.cpmParameters.managementContainer.referencePosition.longitude"
-                }
-              ],
-              "source": "CPM"
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "latitude",
-              "binary": {
-                "left": "latitude_raw",
-                "operator": "/",
-                "reducer": "sum",
-                "right": "10000000"
-              },
-              "mode": "binary",
-              "reduce": {
-                "reducer": "sum"
-              }
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "longitude",
-              "binary": {
-                "left": "longitude_raw",
-                "operator": "/",
-                "reducer": "sum",
-                "right": "10000000"
-              },
-              "mode": "binary",
-              "reduce": {
-                "reducer": "sum"
-              }
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "desc": true,
-                  "field": "Time"
-                }
-              ]
-            }
-          },
-          {
-            "id": "limit",
-            "options": {
-              "limitField": 1
-            }
-          }
-        ],
-        "type": "geomap"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1504,6 +981,7 @@
                 "tooltip": false,
                 "viz": false
               },
+              "insertNulls": false,
               "lineInterpolation": "linear",
               "lineWidth": 1,
               "pointSize": 5,
@@ -1533,17 +1011,18 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unitScale": true
           },
           "overrides": []
         },
         "gridPos": {
           "h": 7,
-          "w": 6,
-          "x": 6,
-          "y": 16
+          "w": 12,
+          "x": 12,
+          "y": 15
         },
-        "id": 16,
+        "id": 8,
         "options": {
           "legend": {
             "calcs": [],
@@ -1563,20 +1042,21 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "obu/inqueue/json/3306/LOGS/access"
+            "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "5g RSRP (dB)",
+        "title": "SNR",
         "transformations": [
           {
-            "id": "filterFieldsByName",
+            "id": "extractFields",
             "options": {
-              "include": {
-                "names": [
-                  "Time",
-                  "5g_rsrp"
-                ]
-              }
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.nr.snr"
+                }
+              ],
+              "source": "vsm"
             }
           }
         ],
@@ -1584,26 +1064,41 @@
       }
     ],
     "refresh": "",
-    "revision": 1,
-    "schemaVersion": 38,
-    "style": "dark",
+    "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": []
-    },
-    "time": {
-      "from": "now-30s",
-      "to": "now"
-    },
-    "timepicker": {
-      "refresh_intervals": [
-        "30s"
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "555",
+            "value": "555"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "station",
+          "options": [
+            {
+              "selected": true,
+              "text": "555",
+              "value": "555"
+            }
+          ],
+          "query": "555",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
       ]
     },
+    "time": {
+      "from": "now-1m",
+      "to": "now"
+    },
+    "timepicker": {},
     "timezone": "",
-    "title": "vOBU 3306",
-    "uid": "wACnaqxVz",
-    "version": 12,
+    "title": "5GASP Demo",
+    "version": 28,
     "weekStart": ""
   },
   "overwrite": true,
