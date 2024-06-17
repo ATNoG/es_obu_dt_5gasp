@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskweb
+spec:
+  selector:
+    matchLabels:
+      app: flaskweb
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flaskweb
+
+    spec:
+      containers:
+
+        - name: flaskweb
+          image: "harbor.patras5g.eu/5gasp/flaskweb:ed0f5560"
+          ports:
+            - name: http
+              containerPort: 5000
+          env:
+          - name: DB_HOSTNAME
+            value: "mongodb.lamdanetworks.svc.cluster.local"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

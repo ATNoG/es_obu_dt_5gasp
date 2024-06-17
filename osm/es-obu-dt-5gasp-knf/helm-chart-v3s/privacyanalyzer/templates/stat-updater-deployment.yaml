@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stat-updater
+spec:
+  selector:
+    matchLabels:
+      app: stat-updater
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stat-updater
+
+    spec:
+      containers:
+
+        - name: stat-updater
+          image: "harbor.patras5g.eu/5gasp/stat-updater:ebab97c34"
+          ports:
+            - name: http
+              containerPort: 5000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+          env:
+          - name: DB_HOSTNAME
+            value: "mongodb.lamdanetworks.svc.cluster.local"
+          - name: DB_DATABASE
+            value: "5gasp"
+          - name: DB_USER
+            value: "leonidas"
+          - name: DB_PASSWD
+            value: "leo123"
+          - name: SUMMARY_JOB_INTERVAL
+            value: "7"

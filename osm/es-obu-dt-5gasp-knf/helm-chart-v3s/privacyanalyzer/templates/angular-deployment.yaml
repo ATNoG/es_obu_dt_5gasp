@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular
+spec:
+  selector:
+    matchLabels:
+      app: angular
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: angular
+
+    spec:
+      containers:
+
+        - name: angular
+          image: "harbor.patras5g.eu/5gasp/angular:cec030e5"
+          ports:
+            - name: http
+              containerPort: 9000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"

@@ -1,0 +1,23 @@
+es_obu_dt_5gasp:
+  env:
+    brokerPassword: dummy_password
+    brokerUrl: dummy_url
+    brokerUsername: dummy_username
+  image:
+    repository: harbor.patras5g.eu/netapp/es-obu-dt-5gasp
+    tag: latest
+  replicas: 1
+kubernetesClusterDomain: cluster.local
+service:
+  ports:
+  - name: mqtt
+    nodePort: 30001
+    port: 1883
+    protocol: TCP
+    targetPort: 1883
+  - name: grafana
+    nodePort: 30002
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  type: NodePort

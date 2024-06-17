@@ -1,0 +1,22 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flaskweb-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: "/lamda-api(.*)"
+        pathType: Prefix
+        backend:
+          service:
+            name: flaskweb-service
+            port:
+              number: 5000
+{{- end }}
+
+# api.privacyanalyzer
