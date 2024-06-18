@@ -87,7 +87,7 @@
                   "color": {
                     "fixed": "dark-green"
                   },
-                  "opacity": 0.4,
+                  "opacity": 1,
                   "rotation": {
                     "fixed": 0,
                     "max": 360,
@@ -95,12 +95,12 @@
                     "mode": "mod"
                   },
                   "size": {
-                    "fixed": 5,
+                    "fixed": 20,
                     "max": 15,
                     "min": 2
                   },
                   "symbol": {
-                    "fixed": "img/icons/marker/circle.svg",
+                    "fixed": "img/icons/unicons/car-sideview.svg",
                     "mode": "fixed"
                   },
                   "symbolAlign": {
@@ -132,7 +132,7 @@
             "id": "fit",
             "lat": 0,
             "lon": 0,
-            "zoom": 15
+            "zoom": 17
           }
         },
         "pluginVersion": "10.3.3",
@@ -146,7 +146,7 @@
             "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "Location",
+        "title": "vOBU Location",
         "transformations": [
           {
             "id": "extractFields",
@@ -212,85 +212,7 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unitScale": true
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 5,
-          "x": 7,
-          "y": 0
-        },
-        "id": 3,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "10.3.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "its_center/inqueue/json/21/VSM"
-          }
-        ],
-        "title": "MCC",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "format": "json",
-              "jsonPaths": [
-                {
-                  "path": "modemStatus.mcc"
-                }
-              ],
-              "source": "vsm"
-            }
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
+              "fixedColor": "#FADE2A",
               "mode": "palette-classic"
             },
             "custom": {
@@ -346,7 +268,7 @@
         "gridPos": {
           "h": 7,
           "w": 6,
-          "x": 12,
+          "x": 7,
           "y": 0
         },
         "id": 10,
@@ -373,7 +295,110 @@
           }
         ],
         "title": "Throughput (B/s)",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "rx_bytes": "rx",
+                "tx_bytes": "tx"
+              }
+            }
+          }
+        ],
         "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "12": {
+                    "index": 0,
+                    "text": "5G"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 5,
+          "x": 13,
+          "y": 0
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "RAT",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.ratMode"
+                }
+              ],
+              "source": "vsm"
+            }
+          }
+        ],
+        "type": "stat"
       },
       {
         "datasource": {
@@ -465,7 +490,7 @@
             "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "RSRQ",
+        "title": "RSRQ (dB)",
         "transformations": [
           {
             "id": "extractFields",
@@ -473,6 +498,7 @@
               "format": "json",
               "jsonPaths": [
                 {
+                  "alias": "rsrq",
                   "path": "modemStatus.nr.rsrq"
                 }
               ],
@@ -490,86 +516,7 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unitScale": true
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 5,
-          "x": 7,
-          "y": 7
-        },
-        "id": 4,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "10.3.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "its_center/inqueue/json/21/VSM"
-          }
-        ],
-        "title": "MNC",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "format": "json",
-              "jsonPaths": [
-                {
-                  "path": "modemStatus.mnc"
-                }
-              ],
-              "source": "vsm"
-            }
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "yellow",
+              "fixedColor": "semi-dark-orange",
               "mode": "fixed"
             },
             "custom": {
@@ -623,9 +570,9 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
+          "h": 7,
           "w": 6,
-          "x": 12,
+          "x": 7,
           "y": 7
         },
         "id": 1,
@@ -651,7 +598,7 @@
             "topic": "logs/21/MESSAGE_DELAY"
           }
         ],
-        "title": "Latency (ms)",
+        "title": "E2E Latency (ms)",
         "transformations": [
           {
             "id": "extractFields",
@@ -659,9 +606,99 @@
               "format": "json",
               "source": "message_delay"
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "message_delay": "e2e_latency"
+              }
+            }
           }
         ],
         "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 5,
+          "x": 13,
+          "y": 7
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "MNC",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.mnc"
+                }
+              ],
+              "source": "vsm"
+            }
+          }
+        ],
+        "type": "stat"
       },
       {
         "datasource": {
@@ -725,7 +762,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
+          "h": 7,
           "w": 6,
           "x": 18,
           "y": 7
@@ -753,7 +790,7 @@
             "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "RSRP",
+        "title": "RSRP (dBm)",
         "transformations": [
           {
             "id": "extractFields",
@@ -761,6 +798,7 @@
               "format": "json",
               "jsonPaths": [
                 {
+                  "alias": "rsrp",
                   "path": "modemStatus.nr.rsrp"
                 }
               ],
@@ -778,86 +816,8 @@
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unitScale": true
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 5,
-          "x": 0,
-          "y": 14
-        },
-        "id": 5,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "10.3.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-mqtt-datasource",
-              "uid": "$DATASOURCE_UID"
-            },
-            "refId": "A",
-            "topic": "its_center/inqueue/json/21/VSM"
-          }
-        ],
-        "title": "RAT",
-        "transformations": [
-          {
-            "id": "extractFields",
-            "options": {
-              "format": "json",
-              "jsonPaths": [
-                {
-                  "path": "modemStatus.ratMode"
-                }
-              ],
-              "source": "vsm"
-            }
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "grafana-mqtt-datasource",
-          "uid": "$DATASOURCE_UID"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
+              "fixedColor": "light-blue",
+              "mode": "fixed"
             },
             "custom": {
               "axisBorderShow": false,
@@ -910,9 +870,163 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
+          "h": 7,
           "w": 7,
-          "x": 5,
+          "x": 0,
+          "y": 14
+        },
+        "id": 11,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "10.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "vOBU Speed (m/s)",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "alias": "speed_cms",
+                  "path": "oBody.sensorsDataContainer.speedDataContainer.speed"
+                }
+              ],
+              "source": "vsm"
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "speed",
+              "binary": {
+                "left": "speed_cms",
+                "operator": "/",
+                "right": "100"
+              },
+              "mode": "binary",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": 16383
+                    }
+                  },
+                  "fieldName": "speed_cms"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "speed_cms": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {}
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "orange",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 6,
+          "x": 7,
           "y": 14
         },
         "id": 9,
@@ -946,6 +1060,7 @@
               "format": "json",
               "jsonPaths": [
                 {
+                  "alias": "pci",
                   "path": "modemStatus.nr.pci"
                 }
               ],
@@ -954,6 +1069,85 @@
           }
         ],
         "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-mqtt-datasource",
+          "uid": "$DATASOURCE_UID"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 5,
+          "x": 13,
+          "y": 14
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-mqtt-datasource",
+              "uid": "$DATASOURCE_UID"
+            },
+            "refId": "A",
+            "topic": "its_center/inqueue/json/21/VSM"
+          }
+        ],
+        "title": "MCC",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": "modemStatus.mcc"
+                }
+              ],
+              "source": "vsm"
+            }
+          }
+        ],
+        "type": "stat"
       },
       {
         "datasource": {
@@ -1018,9 +1212,9 @@
         },
         "gridPos": {
           "h": 7,
-          "w": 12,
-          "x": 12,
-          "y": 15
+          "w": 6,
+          "x": 18,
+          "y": 14
         },
         "id": 8,
         "options": {
@@ -1045,7 +1239,7 @@
             "topic": "its_center/inqueue/json/21/VSM"
           }
         ],
-        "title": "SNR",
+        "title": "SNR (dB)",
         "transformations": [
           {
             "id": "extractFields",
@@ -1053,6 +1247,7 @@
               "format": "json",
               "jsonPaths": [
                 {
+                  "alias": "snr",
                   "path": "modemStatus.nr.snr"
                 }
               ],
@@ -1067,29 +1262,7 @@
     "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "555",
-            "value": "555"
-          },
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "station",
-          "options": [
-            {
-              "selected": true,
-              "text": "555",
-              "value": "555"
-            }
-          ],
-          "query": "555",
-          "skipUrlSync": false,
-          "type": "custom"
-        }
-      ]
+      "list": []
     },
     "time": {
       "from": "now-1m",
@@ -1098,7 +1271,8 @@
     "timepicker": {},
     "timezone": "",
     "title": "5GASP Demo",
-    "version": 28,
+    "uid": "fc74620d-c230-444f-9b5b-bb342272d654",
+    "version": 50,
     "weekStart": ""
   },
   "overwrite": true,
