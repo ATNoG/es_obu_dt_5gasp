@@ -1,0 +1,20 @@
+mec-appd:
+  id: es-obu-dt-appd
+  name: es-obu-dt-appd
+  provider: IT
+  soft-version: "1.0"
+  version: '1.0'
+  mec-version: '1.0'
+  info-name: ES OBU DT MEC App
+  description: ES OBU DT MEC app
+  ext-cpd:
+    - id: mgmtnet-ext
+      k8s-cluster-net: mgmtnet
+      layer-protocol:
+        - "IPV4"
+  artifacts:
+    - name: es-obu-dt-kdu
+      helm-chart: es-obu-dt-5gasp-chart
+      description: Helm Chart for ES OBU DT
+      type: helm3
+      file: helm.tar.gz

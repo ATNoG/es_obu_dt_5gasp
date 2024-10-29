@@ -1,0 +1,13 @@
+additionalParamsForVnf:
+- member-vnf-index: "es-obu-dt-appd-vnf"
+
+  additionalParamsForKdu:
+    - kdu_name: es-obu-dt-kdu
+      k8s-namespace: es-obu-dt-5gasp
+      kdu-deployment-name: obu
+      additionalParams:
+        es_obu_dt_5gasp:
+          env:
+            brokerPassword: dummyPassword
+            brokerUsername: dummyUsername
+            brokerUrl: dummyUrl
