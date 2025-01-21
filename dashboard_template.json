@@ -53,8 +53,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -135,7 +134,7 @@
             "zoom": 18
           }
         },
-        "pluginVersion": "10.3.3",
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
@@ -222,6 +221,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -260,8 +260,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -291,7 +290,7 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "logs/21/MESSAGE_DELAY"
+            "topic": "logs/21/DELAY"
           }
         ],
         "title": "E2E Latency (ms)",
@@ -340,8 +339,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -357,6 +355,7 @@
           "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "auto",
+          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -368,7 +367,7 @@
           "textMode": "auto",
           "wideLayout": true
         },
-        "pluginVersion": "10.3.3",
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
@@ -414,6 +413,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -452,8 +452,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -522,6 +521,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -560,8 +560,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -591,7 +590,7 @@
               "uid": "$DATASOURCE_UID"
             },
             "refId": "A",
-            "topic": "logs/21/throughput"
+            "topic": "logs/21/THROUGHPUT"
           }
         ],
         "title": "Throughput (B/s)",
@@ -634,8 +633,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -651,6 +649,7 @@
           "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "auto",
+          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -662,7 +661,7 @@
           "textMode": "auto",
           "wideLayout": true
         },
-        "pluginVersion": "10.3.3",
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
@@ -708,6 +707,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -746,8 +746,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -816,6 +815,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -854,8 +854,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -985,8 +984,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -1002,6 +1000,7 @@
           "graphMode": "none",
           "justifyMode": "auto",
           "orientation": "auto",
+          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1013,7 +1012,7 @@
           "textMode": "auto",
           "wideLayout": true
         },
-        "pluginVersion": "10.3.3",
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
@@ -1065,8 +1064,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -1082,6 +1080,7 @@
           "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "auto",
+          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1093,7 +1092,7 @@
           "textMode": "auto",
           "wideLayout": true
         },
-        "pluginVersion": "10.3.3",
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
@@ -1140,6 +1139,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -1178,8 +1178,7 @@
                   "value": 80
                 }
               ]
-            },
-            "unitScale": true
+            }
           },
           "overrides": []
         },
@@ -1243,8 +1242,8 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "5GASP Demo",
-    "uid": "fc74620d-c230-444f-9b5b-bb342272d654",
+    "title": "5G SA",
+    "uid": "fc74620d-c230-444f-9b5b-bb342272b432",
     "version": 54,
     "weekStart": ""
   },
